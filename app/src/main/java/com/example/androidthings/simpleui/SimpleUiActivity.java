@@ -17,21 +17,26 @@
 package com.example.androidthings.simpleui;
 
 import android.app.Activity;
-
-import com.google.android.things.pio.Gpio;
-import com.google.android.things.pio.PeripheralManagerService;
-
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
+import com.google.android.things.pio.Gpio;
+import com.google.android.things.pio.PeripheralManagerService;
+
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class SimpleUiActivity extends Activity {
 
     private static final String TAG = SimpleUiActivity.class.getSimpleName();
+
+    private Map<String, Gpio> mGpioMap = new LinkedHashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +44,22 @@ public class SimpleUiActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         LinearLayout gpioPinsView = (LinearLayout) findViewById(R.id.gpio_pins);
+        LayoutInflater inflater = getLayoutInflater();
         PeripheralManagerService pioService = new PeripheralManagerService();
-        for (String s : pioService.getGpioList()) {
-            final Switch button = new Switch(this);
-            button.setText(s);
+
+        for (String name : pioService.getGpioList()) {
+            View child = inflater.inflate(R.layout.list_item_gpio, gpioPinsView, false);
+            Switch button = (Switch) child.findViewById(R.id.gpio_switch);
+            button.setText(name);
+            gpioPinsView.addView(button);
+            Log.d(TAG, "Added button for GPIO: " + name);
+
             try {
-                final Gpio ledPin = pioService.openGpio(s);
+                final Gpio ledPin = pioService.openGpio(name);
                 ledPin.setEdgeTriggerType(Gpio.EDGE_NONE);
                 ledPin.setActiveType(Gpio.ACTIVE_HIGH);
                 ledPin.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW);
+
                 button.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -55,21 +67,34 @@ public class SimpleUiActivity extends Activity {
                             ledPin.setValue(isChecked);
                         } catch (IOException e) {
                             Log.e(TAG, "error toggling gpio:", e);
-                            button.setOnCheckedChangeListener(null);
+                            buttonView.setOnCheckedChangeListener(null);
                             // reset button to previous state.
-                            button.setChecked(!isChecked);
-                            button.setOnCheckedChangeListener(this);
+                            buttonView.setChecked(!isChecked);
+                            buttonView.setOnCheckedChangeListener(this);
                         }
                     }
                 });
+
+                mGpioMap.put(name, ledPin);
             } catch (IOException e) {
-                Log.e(TAG, "pio error:", e);
+                Log.e(TAG, "Error initializing GPIO: " + name, e);
                 // disable button
                 button.setEnabled(false);
-            } finally {
-                Log.d(TAG, "added button for GPIO: " + s);
-                gpioPinsView.addView(button);
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        for (Map.Entry<String, Gpio> entry : mGpioMap.entrySet()) {
+            try {
+                entry.getValue().close();
+            } catch (IOException e) {
+                Log.e(TAG, "Error closing GPIO " + entry.getKey(), e);
+            }
+        }
+        mGpioMap.clear();
     }
 }

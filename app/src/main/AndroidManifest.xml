@@ -21,12 +21,14 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        android:theme="@android:style/Theme.DeviceDefault.Light.DarkActionBar">
+
         <uses-library android:name="com.google.android.things"/>
-        <activity android:name="com.example.androidthings.simpleui.SimpleUiActivity">
+
+        <activity android:name=".SimpleUiActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
