@@ -17,8 +17,10 @@
 package com.example.androidthings.simpleui;
 
 import android.app.Activity;
+
 import com.google.android.things.pio.Gpio;
 import com.google.android.things.pio.PeripheralManagerService;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.CompoundButton;
@@ -36,30 +38,38 @@ public class SimpleUiActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        LinearLayout gpioPinsView = (LinearLayout)findViewById(R.id.gpio_pins);
-        try {
-            PeripheralManagerService pioService = new PeripheralManagerService();
-            for (String s : pioService.getGpioList()) {
+        LinearLayout gpioPinsView = (LinearLayout) findViewById(R.id.gpio_pins);
+        PeripheralManagerService pioService = new PeripheralManagerService();
+        for (String s : pioService.getGpioList()) {
+            final Switch button = new Switch(this);
+            button.setText(s);
+            try {
                 final Gpio ledPin = pioService.openGpio(s);
+                ledPin.setEdgeTriggerType(Gpio.EDGE_NONE);
                 ledPin.setActiveType(Gpio.ACTIVE_HIGH);
-                Switch button = new Switch(this);
-                button.setText(s);
+                ledPin.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW);
                 button.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         try {
                             ledPin.setValue(isChecked);
                         } catch (IOException e) {
-                            Log.e(TAG, "pio error:", e);
+                            Log.e(TAG, "error toggling gpio:", e);
+                            button.setOnCheckedChangeListener(null);
+                            // reset button to previous state.
+                            button.setChecked(!isChecked);
+                            button.setOnCheckedChangeListener(this);
                         }
                     }
                 });
+            } catch (IOException e) {
+                Log.e(TAG, "pio error:", e);
+                // disable button
+                button.setEnabled(false);
+            } finally {
+                Log.d(TAG, "added button for GPIO: " + s);
                 gpioPinsView.addView(button);
             }
-            Log.d(TAG, "gpio:" + pioService.getGpioList());
-
-        } catch (IOException e) {
-            Log.e(TAG, "pio error:", e);
         }
     }
 }
