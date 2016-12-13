@@ -35,5 +35,5 @@ android {
 }
 
 dependencies {
-    provided 'com.google.android.things:androidthings:0.1-preview'
+    provided 'com.google.android.things:androidthings:0.1-devpreview'
 }
