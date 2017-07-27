@@ -1,5 +1,4 @@
-Android Things Simple UI
-========================
+# Android Things Simple UI
 
 This utility shows on the attached display Android [Switch](https://developer.android.com/reference/android/widget/Switch.html) widgets
 for each GPIO pins exported by the board.
@@ -9,8 +8,7 @@ When you click or tap on the switch, the GPIO active status switch from HIGH to 
 You can attach LEDs or other digital output peripheral to your GPIO pins and toggle them on and off without changing a single line of code
 (if you connect LEDs: make sure you add 470 ohms current-limiting resistors in series to avoid damaging them).
 
-Pre-requisites
---------------
+## Pre-requisites
 
 - Android Things compatible board
 - Display with touch input or external pointing device
@@ -19,8 +17,7 @@ Pre-requisites
 - resistors
 - Breadboard
 
-Build and install
-=================
+## Build and install
 
 On Android Studio, click on the "Run" button.
 
@@ -31,8 +28,7 @@ If you prefer to run on the command line, type
 adb shell am start com.example.androidthings.simpleui/.SimpleUiActivity
 ```
 
-License
--------
+## License
 
 Copyright 2016 The Android Open Source Project, Inc.
 
