@@ -8,6 +8,12 @@ When you click or tap on the switch, the GPIO active status switch from HIGH to 
 You can attach LEDs or other digital output peripheral to your GPIO pins and toggle them on and off without changing a single line of code
 (if you connect LEDs: make sure you add 470 ohms current-limiting resistors in series to avoid damaging them).
 
+## Screenshots
+
+![Simple UI sample demo][demo-gif]
+
+[(Watch the demo on YouTube)][demo-yt]
+
 ## Pre-requisites
 
 - Android Things compatible board
@@ -46,3 +52,6 @@ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
 WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
 License for the specific language governing permissions and limitations under
 the License.
+
+[demo-yt]: https://www.youtube.com/watch?v=Fry_yvoDvt4&list=PLWz5rJ2EKKc-GjpNkFe9q3DhE2voJscDT&index=10
+[demo-gif]: demo1.gif
