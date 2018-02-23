@@ -26,7 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import com.google.android.things.pio.Gpio;
-import com.google.android.things.pio.PeripheralManagerService;
+import com.google.android.things.pio.PeripheralManager;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
@@ -45,9 +45,9 @@ public class SimpleUiActivity extends Activity {
 
         LinearLayout gpioPinsView = (LinearLayout) findViewById(R.id.gpio_pins);
         LayoutInflater inflater = getLayoutInflater();
-        PeripheralManagerService pioService = new PeripheralManagerService();
+        PeripheralManager pioManager = PeripheralManager.getInstance();
 
-        for (String name : pioService.getGpioList()) {
+        for (String name : pioManager.getGpioList()) {
             View child = inflater.inflate(R.layout.list_item_gpio, gpioPinsView, false);
             Switch button = (Switch) child.findViewById(R.id.gpio_switch);
             button.setText(name);
@@ -55,7 +55,7 @@ public class SimpleUiActivity extends Activity {
             Log.d(TAG, "Added button for GPIO: " + name);
 
             try {
-                final Gpio ledPin = pioService.openGpio(name);
+                final Gpio ledPin = pioManager.openGpio(name);
                 ledPin.setEdgeTriggerType(Gpio.EDGE_NONE);
                 ledPin.setActiveType(Gpio.ACTIVE_HIGH);
                 ledPin.setDirection(Gpio.DIRECTION_OUT_INITIALLY_LOW);
