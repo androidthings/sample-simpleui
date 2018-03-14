@@ -1,4 +1,4 @@
-# Android Things Simple UI
+# Android Things Simple UI (Java)
 
 This utility shows on the attached display Android [Switch][switch-ref] widgets for each GPIO pin exported by the board.
 
@@ -53,5 +53,5 @@ License for the specific language governing permissions and limitations under
 the License.
 
 [demo-yt]: https://www.youtube.com/watch?v=Fry_yvoDvt4&list=PLWz5rJ2EKKc-GjpNkFe9q3DhE2voJscDT&index=10
-[demo-gif]: demo1.gif
+[demo-gif]: ../demo1.gif
 [switch-ref]: https://developer.android.com/reference/android/widget/Switch.html
