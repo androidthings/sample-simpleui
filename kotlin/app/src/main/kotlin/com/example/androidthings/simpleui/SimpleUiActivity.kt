@@ -27,7 +27,7 @@ import com.google.android.things.pio.Gpio
 import com.google.android.things.pio.PeripheralManager
 import java.io.IOException
 
-class MainActivity : Activity() {
+class SimpleUiActivity : Activity() {
 
     private val gpioList = ArrayList<Gpio>()
 
