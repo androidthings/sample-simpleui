@@ -1,4 +1,10 @@
-# Android Things Simple UI (Java)
+# Simple Peripheral UI (Java)
+
+This utility exposes the GPIO of an Android Things device as switch widgets in
+a graphical UI. You review the state of inputs, and click the switches to control
+the state of outputs.
+
+## Introduction
 
 This utility shows on the attached display Android [Switch][switch-ref] widgets for each GPIO pin exported by the board.
 
