@@ -41,6 +41,6 @@ android {
 }
 
 dependencies {
-    compileOnly 'com.google.android.things:androidthings:0.8-devpreview'
+    compileOnly 'com.google.android.things:androidthings:1.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
