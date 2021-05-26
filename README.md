@@ -4,6 +4,10 @@ This utility exposes the GPIO of an Android Things device as switch widgets in
 a graphical UI. You review the state of inputs, and click the switches to control
 the state of outputs.
 
+> **Note:** The Android Things Console will be turned down for non-commercial
+> use on January 5, 2022. For more details, see the
+> [FAQ page](https://developer.android.com/things/faq).
+
 ## Introduction
 
 This utility shows on the attached display Android [Switch][switch-ref] widgets for each GPIO pin exported by the board.
